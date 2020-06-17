@@ -26,7 +26,7 @@ app.secret_key = os.urandom(16)
 api = Api(app)
 
 # Add api endpoint/resource
-api.add_resource(Book, '/book/<string:title>')
+api.add_resource(Book, '/book/<string:book_title>')
 api.add_resource(BookList, '/books')
 
 if __name__ == '__main__':

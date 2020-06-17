@@ -6,31 +6,31 @@ from db import db
 class BookModel(db.Model):
     __tablename__ = 'books'
 
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100))
-    description = db.Column(db.Text)
-    genre = db.Column(db.String(100))
-    creation = db.Column(db.DateTime)
-    update = db.Column(db.DateTime)
+    book_id = db.Column(db.Integer, primary_key=True)
+    book_title = db.Column(db.String(100))
+    book_description = db.Column(db.Text)
+    book_genre = db.Column(db.String(100))
+    book_creation = db.Column(db.DateTime)
+    book_update = db.Column(db.DateTime)
 
     # All class property names must match to column defined above 
     # to save the information to the database
     # Additional unmatched properties will not save in the database columns
-    def __init__(self, title, description, genre, creation=datetime.now(), update=datetime.now()):
-        self.title = title
-        self.description = description
-        self.genre = genre
-        self.creation = creation
-        self.update = update    
+    def __init__(self, book_title, book_description, book_genre, book_creation=datetime.now(), book_update=datetime.now()):
+        self.book_title = book_title
+        self.book_description = book_description
+        self.book_genre = book_genre
+        self.book_creation = book_creation
+        self.book_update = book_update    
 
     def json(self):
-        return {'title': self.title, 'description': self.description, 
-                'genre': self.genre, 'creation': self.creation.strftime('%Y/%m/%d %X'), 
-                'update': self.update.strftime('%Y/%m/%d %X')}
+        return {'book_id': self.book_id, 'book_title': self.book_title, 'book_description': self.book_description, 
+                'book_genre': self.book_genre, 'book_creation': self.book_creation.strftime('%Y/%m/%d %X'), 
+                'book_update': self.book_update.strftime('%Y/%m/%d %X')}
 
     @classmethod
-    def find_by_title(cls, title):
-        return cls.query.filter_by(title=title).first()
+    def find_by_title(cls, book_title):
+        return cls.query.filter_by(book_title=book_title).first()
 
     def save_to_db(self):
         db.session.add(self)
