@@ -25,8 +25,8 @@ class BookModel(db.Model):
 
     def json(self):
         return {'book_id': self.book_id, 'book_title': self.book_title, 'book_description': self.book_description, 
-                'book_genre': self.book_genre, 'book_creation': self.book_creation.strftime('%Y/%m/%d %X'), 
-                'book_update': self.book_update.strftime('%Y/%m/%d %X')}
+                'book_genre': self.book_genre, 'book_creation': self.book_creation.strftime('%Y-%m-%d %X'), 
+                'book_update': self.book_update.strftime('%Y-%m-%d %X')}
 
     @classmethod
     def find_by_title(cls, book_title):
