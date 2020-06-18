@@ -29,8 +29,8 @@ class BookModel(db.Model):
                 'book_update': self.book_update.strftime('%Y-%m-%d %X')}
 
     @classmethod
-    def find_by_title(cls, book_title):
-        return cls.query.filter_by(book_title=book_title).first()
+    def find_by_id(cls, book_id):
+        return cls.query.filter_by(book_id=book_id).first()        
 
     def save_to_db(self):
         db.session.add(self)
