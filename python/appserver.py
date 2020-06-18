@@ -27,7 +27,8 @@ api = Api(app)
 
 # https://flask.palletsprojects.com/en/1.1.x/quickstart/
 # Add api endpoint/resource
-api.add_resource(Book, '/book/<string:book_title>')
+# api.add_resource(Book, '/book/<string:book_title>')
+api.add_resource(Book, '/book/<int:book_id>', '/book')
 api.add_resource(BookList, '/books')
 
 if __name__ == '__main__':

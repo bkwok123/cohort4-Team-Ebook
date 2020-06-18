@@ -26,20 +26,21 @@ def client():
 def test_book(client):
 
     # No data for the test book
-    rv = client.get('/book/testTitle1')
+    rv = client.get('/book/1')
 
     # Expect Not Found request
     assert(rv.status_code == 404)
     assert(b'Book not found' in rv.data)
 
-    rv = client.post('/book/testTitle1', data=dict(
+    rv = client.post('/book', data=dict(
             book_description="testTitle1 description"
             ))
     # Expect bad request due to client error
     assert(rv.status_code == 400)
-    assert(b'Every book needs a genre.' in rv.data)
+    assert(b'Every book needs a title.' in rv.data)
 
-    rv = client.post('/book/testTitle1', data=dict(
+    rv = client.post('/book', data=dict(
+            book_title="testTitle1",
             book_description="testTitle1 description",
             book_genre="testTitle1 genre"
             ))
@@ -56,7 +57,15 @@ def test_book(client):
     assert(b'book_update' in rv.data)
     assert(bytes(ts, 'utf-8') in rv.data)    
 
-    rv = client.put('/book/testTitle1', data=dict(
+    rv = client.put('/book/999', data=dict(
+            book_description="testTitle1 description2",
+            book_genre="testTitle1 genre2"
+            ))
+    # Expect success status response
+    assert(rv.status_code == 400)
+
+    rv = client.put('/book/1', data=dict(
+            book_title="testTitle1",
             book_description="testTitle1 description2",
             book_genre="testTitle1 genre2"
             ))
@@ -66,7 +75,7 @@ def test_book(client):
     assert(b'"book_description": "testTitle1 description2"' in rv.data)
     assert(b'"book_genre": "testTitle1 genre2"' in rv.data)    
 
-    rv = client.delete('/book/testTitle1', data=dict(
+    rv = client.delete('/book/1', data=dict(
             book_description="testTitle1 description2",
             book_genre="testTitle1 genre2"
             ))
@@ -87,11 +96,13 @@ def test_books(client):
     # Check a list of books case
     #####################################
     # Create test data
-    rv = client.post('/book/testTitle1', data=dict(
+    rv = client.post('/book', data=dict(
+        book_title="testTitle1",
         book_description="testTitle1 description1",
         book_genre="testTitle1 genre1"
         ))
-    rv = client.post('/book/testTitle2', data=dict(
+    rv = client.post('/book', data=dict(
+        book_title="testTitle2",
         book_description="testTitle2 description2",
         book_genre="testTitle2 genre2"
         ))
