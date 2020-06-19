@@ -14,7 +14,7 @@ class SectionModel(db.Model):
     section_creation = db.Column(db.DateTime, nullable=False)
     section_update = db.Column(db.DateTime, nullable=False)
 
-    # contents = db.relationship('ContentModel', lazy='dynamic', cascade="all, delete")
+    contents = db.relationship('ContentModel', lazy='dynamic', cascade="all, delete")
 
     def __init__(self, chapter_id, section_name, section_description, section_order, section_creation=datetime.now(), section_update=datetime.now()):
         self.chapter_id = chapter_id
@@ -27,6 +27,7 @@ class SectionModel(db.Model):
     def json(self):
         return {'section_id': self.section_id, 'chapter_id': self.chapter_id, 'section_name': self.section_name, 
                 'section_description': self.section_description, 'section_order': self.section_order,
+                'contents': [content.json() for content in self.contents.all()],
                 'section_creation': self.section_creation.strftime('%Y-%m-%d %X'), 
                 'section_update': self.section_update.strftime('%Y-%m-%d %X')}
 

@@ -7,6 +7,7 @@ from db import db
 from resources.book import Book, BookList
 from resources.chapter import Chapter, ChapterList
 from resources.section import Section, SectionList
+from resources.content import Content, ContentList
 
 # Initiate Flask obj
 app = Flask(__name__)
@@ -36,6 +37,8 @@ api.add_resource(Chapter, '/chapter/<int:chapter_id>', '/chapter')
 api.add_resource(ChapterList, '/chapters')
 api.add_resource(Section, '/section/<int:section_id>', '/section')
 api.add_resource(SectionList, '/sections')
+api.add_resource(Content, '/content/<int:content_id>', '/content')
+api.add_resource(ContentList, '/contents')
 
 if __name__ == '__main__':
     # https://flask-sqlalchemy.palletsprojects.com/en/2.x/api/
