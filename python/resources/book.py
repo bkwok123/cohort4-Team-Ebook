@@ -52,10 +52,10 @@ class Book(Resource):
         data = Book.parser.parse_args()
 
         book = BookModel.find_by_id(book_id)
-
-        if book is None:
+        
+        if book is None:    # Create a new book if it does not exist in the database
             book = BookModel(**data)
-        else:
+        else:               # Update the book if it exists in the database
             book.book_title = data['book_title']
             book.book_description = data['book_description']
             book.book_genre = data['book_genre']
@@ -65,6 +65,7 @@ class Book(Resource):
 
         return book.json()      
 
+    # Delete a book will delete all child items
     def delete(self, book_id):
         book = BookModel.find_by_id(book_id)
         if book:
@@ -74,5 +75,10 @@ class Book(Resource):
 
 class BookList(Resource):
     # use query.with_entities(DataModel.col1, DataModel.col2) for a specific columns
-    def get(self):
+    def get(self):        
         return {'books': [book.json() for book in BookModel.query.all()]}            
+    
+    # Delete all books will not delete child items
+    def delete(self):
+        BookModel.delete_all()        
+        return {'message': 'All books deleted'}
