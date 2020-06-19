@@ -1,8 +1,6 @@
 from datetime import datetime
-
 from db import db
 
-# db.Model binds the class to SQLAlchemy
 class SectionModel(db.Model):
     __tablename__ = 'sections'
 
@@ -24,11 +22,19 @@ class SectionModel(db.Model):
         self.section_update = section_update
 
     def json(self):
-        return {'section_id': self.section_id, 'section_name': self.section_name, 'section_description': self.section_description, 
+        return {'section_id': self.section_id, 'section_name': self.section_name, 'section_description': self.section_description,
             'section_order': self.section_order, 'content': [content.json() for content in self.content.all()],
             'section_creation': self.section_creation.strftime('%Y-%m-%d %X'), 
             'section_update': self.section_update.strftime('%Y-%m-%d %X')}
 
     @classmethod
     def find_by_id(cls, section_id):
-        return cls.query.filter_by(section_id=section_id).first()   
+        return cls.query.filter_by(section_id=section_id).first()
+
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
+
+    def delete_from_db(self):
+        db.session.delete(self)
+        db.session.commit()
