@@ -73,3 +73,8 @@ class Chapter(Resource):
 class ChapterList(Resource):
     def get(self):        
         return {'chapters': [chapter.json() for chapter in ChapterModel.query.all()]}
+
+    # Delete all chapters will not delete child items
+    def delete(self):
+        ChapterModel.delete_all()        
+        return {'message': 'All chapters deleted'}
