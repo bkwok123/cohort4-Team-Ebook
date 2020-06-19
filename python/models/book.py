@@ -47,3 +47,13 @@ class BookModel(db.Model):
     def delete_all(cls):
         db.session.query(cls).delete()
         db.session.commit()        
+
+    @classmethod
+    def query_all(cls):
+        result = db.session.query(cls.book_id, cls.book_title, cls.book_description, 
+                                  cls.book_genre, cls.book_creation, cls.book_update).all()
+
+        return [{"book_id": book.book_id, "book_title": book.book_title,
+                 "book_description": book.book_description, "book_genre": book.book_genre,
+                 "book_creation": book.book_creation.strftime('%Y-%m-%d %X'), 
+                 "book_update": book.book_update.strftime('%Y-%m-%d %X')} for book in result]

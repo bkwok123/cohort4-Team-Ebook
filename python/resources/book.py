@@ -76,7 +76,8 @@ class Book(Resource):
 class BookList(Resource):
     # use query.with_entities(DataModel.col1, DataModel.col2) for a specific columns
     def get(self):        
-        return {'books': [book.json() for book in BookModel.query.all()]}            
+        # return {'books': [book.json() for book in BookModel.query.all()]}            
+        return {'books': BookModel.query_all()}
     
     # Delete all books will not delete child items
     def delete(self):
