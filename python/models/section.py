@@ -1,8 +1,7 @@
 from datetime import datetime
 
-from db import db
 
-# db.Model binds the class to SQLAlchemy
+from db import db
 class SectionModel(db.Model):
     __tablename__ = 'sections'
 
@@ -33,6 +32,7 @@ class SectionModel(db.Model):
     @classmethod
     def find_by_id(cls, section_id):
         return cls.query.filter_by(section_id=section_id).first()        
+
 
     def save_to_db(self):
         db.session.add(self)
