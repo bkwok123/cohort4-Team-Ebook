@@ -13,6 +13,8 @@ class BookModel(db.Model):
     book_creation = db.Column(db.DateTime)
     book_update = db.Column(db.DateTime)
 
+    chapters = db.relationship('ChapterModel', lazy='dynamic', cascade="all, delete")
+
     # All class property names must match to column defined above 
     # to save the information to the database
     # Additional unmatched properties will not save in the database columns
@@ -25,7 +27,8 @@ class BookModel(db.Model):
 
     def json(self):
         return {'book_id': self.book_id, 'book_title': self.book_title, 'book_description': self.book_description, 
-                'book_genre': self.book_genre, 'book_creation': self.book_creation.strftime('%Y-%m-%d %X'), 
+                'book_genre': self.book_genre, 'chapters': [chapter.json() for chapter in self.chapters.all()],
+                'book_creation': self.book_creation.strftime('%Y-%m-%d %X'), 
                 'book_update': self.book_update.strftime('%Y-%m-%d %X')}
 
     @classmethod
@@ -39,3 +42,8 @@ class BookModel(db.Model):
     def delete_from_db(self):
         db.session.delete(self)
         db.session.commit()
+
+    @classmethod
+    def delete_all(cls):
+        db.session.query(cls).delete()
+        db.session.commit()        
